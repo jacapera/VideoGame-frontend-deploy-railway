@@ -155,4 +155,4 @@ const reducer = (state = initialState, action) => {
   };
 };
 
-module.exports = reducer;
+export default reducer;
