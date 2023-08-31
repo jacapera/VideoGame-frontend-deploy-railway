@@ -133,7 +133,7 @@ const Update = (props) => {
     }
   };
 
-  const openModal = () => { dispatch(isModalOpenChange(true)) };
+  //const openModal = () => { dispatch(isModalOpenChange(true)) };
   const closeModal = () => {
     dispatch(isModalOpenChange(false));
     if(message === "Video juego actualizado con !exito"){

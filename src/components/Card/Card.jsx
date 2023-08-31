@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import style from './Card.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import icono from '../../assets/editar.png'
@@ -54,7 +54,7 @@ const Card = (props) => {
         </Link>
         <div className={style.divBtnEliEdi}>
           <Link className={style.link} to={`/update/${props.id}`} >
-            {typeof(props.id) === "string" && <img className={style.imgEditar} src={icono} />}
+            {typeof(props.id) === "string" && <img className={style.imgEditar} src={icono} alt="img" />}
           </Link>
           {typeof(props.id) === "string" && <button className={style.botonCierre} value={props.name} onClick={openModal}>X</button>}
         </div>

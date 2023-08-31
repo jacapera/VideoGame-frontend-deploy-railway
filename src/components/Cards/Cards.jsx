@@ -51,7 +51,7 @@ const pageSelected = (event) => {
   // Funciones del ciclo de vida del componente
 // ------------------------------------------------------------------------
   useEffect(() => {
-    if(isLoading) navigate('/home');
+    isLoading && navigate('/home');
     dispatch(getGenres());
     window.scrollTo(0, 0);
   }, []);
