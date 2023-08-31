@@ -1,0 +1,36 @@
+.navBar{
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  justify-content: space-between;
+  height: fit-content;
+  background-image: url('../../assets/5ST4.gif');
+  background-size: contain;
+  background-repeat: repeat;
+  background-position: center;
+  position: sticky;
+  top: 0;
+  z-index: 100; /* Ajusta el valor del z-index según la necesidad */
+}
+
+.button {
+  width: auto;
+  display: inline-block;
+  padding: 8px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  color: #ece8e8;
+  background-color: #4b049c;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 0px;
+}
+
+.button:hover {
+  background-color: #ffbb00;
+  transform: scale(1.1)
+}
