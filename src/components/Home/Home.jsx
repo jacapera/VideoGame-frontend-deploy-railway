@@ -1,26 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import style from './Home.module.css';
 import Cards from '../Cards/Cards';
 import { useDispatch, useSelector } from 'react-redux';
-import { getVideoGames, isLoadingChange, isModalOpenChange, messageChange, resetError } from '../../redux/action';
+import { isModalOpenChange, messageChange, resetError } from '../../redux/action';
 import NotFound from '../NotFound/NotFound';
-import { useNavigate } from 'react-router-dom';
 
 const Home = (props) => {
 
-  // Estados locales
-  // ----------------------------------------------------------------
-  //const [isModalOpen, setIsModalOpen] = useState(false);
-  const navigate = useNavigate();
-
   // Estados y acciones globales
   // ----------------------------------------------------------------
-  const { error, message, isModalOpen } = useSelector(state => state);
+  const isModalOpen = useSelector(state => state.isModalOpen);
+  const message = useSelector(state => state.message);
+  const error = useSelector(state => state.error);
   const dispatch = useDispatch();
 
   // Funciones locales
   // ----------------------------------------------------------------
-  //const openModal = () => { dispatch(isModalOpenChange(true)) };
+  const openModal = () => { dispatch(isModalOpenChange(true)) };
 
   const closeModal = () => {
     dispatch(isModalOpenChange(false));
@@ -28,28 +24,21 @@ const Home = (props) => {
     dispatch(messageChange(""));
   };
 
-  //Funciones del ciclo de vida del componente
-  //----------------------------------------------------------------
+  // Mostrar al usuario si va algo mal con la aplicación
   useEffect(() => {
-    dispatch(isLoadingChange(true));
-    dispatch(getVideoGames());
-    window.scrollTo(0, 0);
-  },[]);
-
-  useEffect(() => {
-    if(error !== "" && error !== "Failed to fetch" && error !== "Network Error"){ // 
+    if(error !== "" && error !== "Failed to fetch" && error !== "Network Error"){
       dispatch(messageChange(error));
       dispatch(isModalOpenChange(true));
-      //openModal();
+      openModal();
     }
-
   }, [error]);
 
   return (
     <div className={style.home}>
       { error === "Failed to fetch" || error === "Network Error" ? (
         <NotFound />
-        ) : ( <Cards /> )
+        )
+        : ( <Cards /> )
       }
       {/* Mostrar mensaje en Modal */}
       <div>

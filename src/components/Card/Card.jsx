@@ -40,12 +40,6 @@ const Card = (props) => {
     });
   };
 
-  // Funciones ciclo de vida del componente
-  // ----------------------------------------------------------------
-  // useEffect(() =>{
-
-  // },[])
-
   return(
     <div className={`${style.card} ${isModalOpen && style.cardHover} `}>
       <div className={style.divName}>

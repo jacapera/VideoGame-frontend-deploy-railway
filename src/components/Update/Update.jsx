@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import style from './Update.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { errorChange, getGenres, getPlatforms, getVideoGames, isLoadingChange, isModalOpenChange, messageChange } from '../../redux/action';
+import {
+  errorChange, getGenres, getPlatforms, getVideoGames,
+  isLoadingChange, isModalOpenChange, messageChange
+} from '../../redux/action';
 import validation from '../Form/validation';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -21,8 +24,7 @@ const Update = (props) => {
     image:"",
     released:"",
   })
-  //const [message, setMessage] = useState("");
-  //const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [formValid, setFormValid] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [touchedFields, setTouchedFields] = useState({});
@@ -30,7 +32,10 @@ const Update = (props) => {
 
   // Estados y acciones globales
   // ----------------------------------------------------------------
-  const { allGenres, allPlatforms, message, isModalOpen } = useSelector(state => state);
+  const allGenres = useSelector(state => state.allGenres);
+  const allPlatforms = useSelector(state => state.allPlatforms);
+  const message = useSelector(state => state.message);
+  const isModalOpen = useSelector(state => state.isModalOpen);
   const dispatch = useDispatch();
 
   // Funciones locales
@@ -150,17 +155,19 @@ const Update = (props) => {
     navigate('/cards')
   };
 
-  // Funciones Ciclo de vida del Componente
-  // ---------------------------------------------------
+  // Cargar plataformas y generos
   useEffect(() => {
-    dispatch(getGenres());
-    dispatch(getPlatforms());
-  }, []);
+    if(allPlatforms.length === 0 || allGenres.length === 0) {
+      dispatch(getPlatforms());
+      dispatch(getGenres());
+    }
+  }, [allPlatforms, allGenres]);
 
   // useEffect(() => {
   //   window.scrollTo(0, 0);
   // }, [message]);
 
+  // Cargar la informacion de la card seleccionada
   useEffect(() => {
     axios.get(`${API_URL}/videogames/${id}`)
       .then(({data}) => {
@@ -180,6 +187,7 @@ const Update = (props) => {
       });
   }, [id]);
 
+  // Validación del formulario
   useEffect(() => {
     //console.log("Form: " , createGameForm);
     const errors = validation(createGameForm);

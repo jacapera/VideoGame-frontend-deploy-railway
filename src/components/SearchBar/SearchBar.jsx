@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import style from './SearchBar.module.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { filterGenre, filterByName, orderVideoGames } from '../../redux/action';
@@ -13,8 +13,8 @@ const SearchBar = (props) => {
 
 // Estados y actions globales
 // ----------------------------------------------------
-  const dispatch = useDispatch();
-  const { error, allGenres } = useSelector(state => state);
+const allGenres = useSelector(state => state.allGenres);
+const dispatch = useDispatch();
 
 // Funciones locales
 // ----------------------------------------------------
@@ -48,7 +48,7 @@ const SearchBar = (props) => {
 
   const filterBYGenre = (genre) => {
     dispatch(filterGenre(genre))
-    setGenre("");
+    //setGenre("");
   };
 
   return(

@@ -74,7 +74,7 @@ hr{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  align-items: start;
+  align-items: flex-start;
   border: 2px solid aqua;
   border-radius: 10px;
   padding: 10px;
@@ -109,7 +109,7 @@ hr{
 .divFormShowGenreSelected{
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   width: 75px;
   height: 50px;

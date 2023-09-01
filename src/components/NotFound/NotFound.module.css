@@ -9,6 +9,10 @@
   padding: 20px;
 }
 
+.notfoundIsLandingPage{
+  display: none;
+}
+
 h1{
   margin: 20px;
   width: 100%;

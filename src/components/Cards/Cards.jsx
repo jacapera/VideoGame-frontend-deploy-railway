@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import style from './Cards.module.css'
 import { useDispatch, useSelector } from "react-redux";
-import { getGenres, isLoadingChange } from "../../redux/action";
+import { getGenres, getVideoGames, isLoadingChange } from "../../redux/action";
 import Card from "../Card/Card";
 import Loading from "../Loading/Loading";
 import SearchBar from "../SearchBar/SearchBar";
@@ -9,63 +9,76 @@ import { useNavigate } from "react-router-dom";
 
 const Cards = (props) => {
 
-// Estados locales
-// ------------------------------------------------------------------------
-const [currentPage, setCurrentPage] = useState(0);
-const [buttonPrevDisable, setButtonPrevDisable] = useState(false);
-const [buttonNextDisable, setButtonNextDisable] = useState(false);
-const [pageNumber, setPageNumber] = useState([]);
-const [pages, setPages] = useState([]);
-const navigate = useNavigate();
+  // Estados locales
+  // ------------------------------------------------------------------------
+  const [currentPage, setCurrentPage] = useState(0);
+  const [buttonPrevDisable, setButtonPrevDisable] = useState(false);
+  const [buttonNextDisable, setButtonNextDisable] = useState(false);
+  const [pageNumber, setPageNumber] = useState([]);
+  const [pages, setPages] = useState([]);
+  const navigate = useNavigate();
 
-// Funciones locales
-// ------------------------------------------------------------------------
-const nextPage = () => {
-  allVideoGames.length > currentPage + 15 && setCurrentPage( currentPage + 15 );
-};
-
-const prevPage = () => {
-  currentPage > 0 && setCurrentPage( currentPage - 15 );
-};
-
-const pageSelected = (event) => {
-  const { value } = event.target;
-  // Obtener indice actual
-  const pageNumberIndex = parseInt(value) - 1;
-  // Validación rango del indice actual para saber que page renderizar en el paginado
-  pageNumberIndex >= 0 && pageNumberIndex < pageNumber.length && setCurrentPage(pageNumberIndex * 15);
-  // Validación para deshabilitar el boton >> cuando se encuentre en la ultima pagina
-  allVideoGames.length <= currentPage + 30 && setButtonNextDisable(true);
-}
-
-// Estado y actions Goblales
-// ------------------------------------------------------------------------
+  // Estado y actions Goblales
+  // ------------------------------------------------------------------------
+  const allVideoGames = useSelector(state => state.allVideoGames);
+  const allGenres = useSelector(state => state.allGenres);
+  const isLoading = useSelector(state => state.isLoading);
+  //const error = useSelector(state => state.error);
   const dispatch = useDispatch();
-  const { allVideoGames, isLoading, error } = useSelector(state => state);
-
   const filteredGames = allVideoGames?.slice(currentPage, currentPage + 15);
   //console.log("currenpage", currentPage)
   //console.log("filtrados: ", filteredGames)
   //console.log("todos: ", allVideoGames)
 
-  // Funciones del ciclo de vida del componente
-// ------------------------------------------------------------------------
-  useEffect(() => {
-    isLoading && navigate('/home');
-    dispatch(getGenres());
-    window.scrollTo(0, 0);
-  }, []);
+  // Funciones locales
+  // ------------------------------------------------------------------------
+  const nextPage = () => {
+    allVideoGames.length > currentPage + 15 && setCurrentPage( currentPage + 15 );
+  };
 
+  const prevPage = () => {
+    currentPage > 0 && setCurrentPage( currentPage - 15 );
+  };
+
+  const pageSelected = (event) => {
+    const { value } = event.target;
+    // Obtener indice actual
+    const pageNumberIndex = parseInt(value) - 1;
+    // Validación rango del indice actual para saber que page renderizar en el paginado
+    pageNumberIndex >= 0 && pageNumberIndex < pageNumber.length && setCurrentPage(pageNumberIndex * 15);
+    // Validación para deshabilitar el boton >> cuando se encuentre en la ultima pagina
+    allVideoGames.length <= currentPage + 30 && setButtonNextDisable(true);
+  }
+
+
+  // Cargar los generos para el filtrados
   useEffect(() => {
-    error === "Failed to fetch" || error === "Network Error" && navigate('/home');
-  }, [error]);
+    if(allGenres.length === 0){
+      dispatch(getGenres());
+      window.scrollTo(0, 0);
+    }
+  }, [allGenres]);
+
+  // useEffect(() => {
+  //   error === "Failed to fetch" || error === "Network Error" && navigate('/home');
+  // }, [error]);
+
+  // Cargar las cards para renderizar
+  useEffect(() => {
+    if(allVideoGames.length === 0){
+      console.log("Estoy en CARDS")
+      dispatch(isLoadingChange(true));
+      dispatch(getVideoGames());
+      window.scrollTo(0, 0);
+    }
+  },[]);
 
   useEffect(() => {
     // Me llevara a la pagina 1 si se presenta algún cambio en el estado
     setCurrentPage(0);
     // Al cargar mi estado global y tenga elementos cancelamos el isLoading
-    allVideoGames.length ? dispatch(isLoadingChange(false))
-    : navigate('/home');
+    //allVideoGames.length > 0 ? dispatch(isLoadingChange(false))
+    //: navigate('/home');
 
     const dividir = (allVideoGames, size) => {
       const pages = [];

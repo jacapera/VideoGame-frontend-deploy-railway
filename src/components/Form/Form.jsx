@@ -28,7 +28,10 @@ const Form = (props) => {
 
   // Estados y acciones globales
   // ----------------------------------------------------------------
-  const { allGenres, allPlatforms, message, error } = useSelector(state => state);
+  const error  = useSelector(state => state.error);
+  const allGenres = useSelector(state => state.allGenres);
+  const allPlatforms = useSelector(state => state.allPlatforms);
+  const message = useSelector(state => state.message);
   const dispatch = useDispatch();
 
   // Funciones locales
@@ -138,12 +141,14 @@ const Form = (props) => {
     navigate('/cards')
   };
 
-  // Funciones Ciclo de vida del Componente
-  // ---------------------------------------------------
+
+  // Cargar plataformas y generos
   useEffect(() => {
-    dispatch(getGenres());
-    dispatch(getPlatforms());
-  }, []);
+    if(allPlatforms.length === 0 || allGenres.length === 0) {
+      dispatch(getPlatforms());
+      dispatch(getGenres());
+    }
+  }, [allPlatforms, allGenres]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
