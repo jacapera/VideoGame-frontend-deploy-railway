@@ -91,7 +91,7 @@ const dispatch = useDispatch();
             <h2>Ordenar</h2>
           </div>
         <div className={style.divSearchGenreSelect}>
-          <select className={style.selectGender} defaultValue={"default"} onChange={handleOrderly}>
+          <select className={style.selectGender}  name='order' value={order} onChange={handleOrderly}>
             <option value="default" hidden>escoja aqui</option>
             <option value={"A-Z"} >A-Z</option>
             <option value={"Z-A"} >Z-A</option>

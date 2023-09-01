@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import style from './Form.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getGenres, getPlatforms, isLoadingChange, messageChange, postVideoGame } from '../../redux/action';
+import { getGenres, getPlatforms, getVideoGames, isLoadingChange, messageChange, postVideoGame } from '../../redux/action';
 import validation from './validation';
 import { useNavigate } from 'react-router-dom';
 
@@ -112,16 +112,6 @@ const Form = (props) => {
     let auxErrors = Object.values(formErrors).every(value => value === "");
     if(auxErrors) {
       dispatch(postVideoGame(createGameForm))
-      setCreateGameForm({
-        name:"",
-        description:"",
-        genres:[],
-        platforms:[],
-        rating:0,
-        image:"",
-        released:"",
-      })
-      setFormErrors({});
       error !== "Network Error" && openModal();
     }
   };
@@ -131,6 +121,7 @@ const Form = (props) => {
   const closeModal = () => {
     setIsModalOpen(false)
     if(message === "Video juego creado con !exito"){
+      dispatch(getVideoGames());
       navigate('/home');
     }
     dispatch(messageChange(""));

@@ -66,7 +66,6 @@ const Cards = (props) => {
   // Cargar las cards para renderizar
   useEffect(() => {
     if(allVideoGames.length === 0){
-      console.log("Estoy en CARDS")
       dispatch(isLoadingChange(true));
       dispatch(getVideoGames());
       window.scrollTo(0, 0);

@@ -125,7 +125,7 @@ export const postVideoGame = (game) => {
       console.log(error);
       return dispatch({
         type: ERROR,
-        payload: error.message,
+        payload: error.response.data.message,
       });
     }
   }
