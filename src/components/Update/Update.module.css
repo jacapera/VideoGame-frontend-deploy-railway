@@ -237,7 +237,7 @@ hr{
 }
 
 .pError{
-  color: red;
+  color: rgb(221, 176, 201);
   text-align: start;
   font-size: 0.7rem;
   font-weight: bold;
